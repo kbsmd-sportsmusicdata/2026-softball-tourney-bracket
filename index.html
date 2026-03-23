@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2025 WCWS Bracket Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1218;--bg2:#1a1f28;--card:#222831;--cardH:#2a3040;--bdr:#313a4a;--bdr2:#3e4a5e;--t1:#e4e9f0;--t2:#9aa3b4;--t3:#626d80;--gold:#e8a817;--gD:rgba(232,168,23,.13);--ora:#e87817;--ok:#27b35e;--okB:rgba(39,179,94,.10);--no:#d44040;--noB:rgba(212,64,64,.10)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh}
+
+.hdr{background:linear-gradient(180deg,#151a22,var(--bg));border-bottom:1px solid var(--bdr);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;flex-wrap:wrap;gap:10px}
+.hdr-l{display:flex;align-items:center;gap:16px}
+.hdr-t{font-family:'Permanent Marker',cursive;font-size:22px;background:linear-gradient(135deg,var(--gold),#f2cc50);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-s{font-family:'Oswald',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--t3)}
+.hdr-m{display:flex;gap:12px}
+.stb{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:5px 16px;text-align:center}
+.stl{font-family:'Oswald',sans-serif;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:var(--t3)}
+.stv{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}
+.std{font-size:9px;color:var(--t3)}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.sw{display:flex;background:var(--card);border:1px solid var(--bdr);border-radius:8px;overflow:hidden}
+.swb{font-family:'Oswald',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;padding:8px 18px;border:none;background:transparent;color:var(--t3);cursor:pointer;transition:all .2s}
+.swb.on{background:var(--gold);color:#0e1218;font-weight:600}
+.btn{font-family:'Oswald',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .2s}
+.blk{border:2px solid var(--ora);background:transparent;color:var(--ora)}.blk:hover{background:var(--ora);color:#000}.blk.dn{background:#2a2a2a;border-color:#444;color:#777;cursor:default}
+.brs{border:1px solid var(--bdr);background:transparent;color:var(--t3)}.brs:hover{border-color:var(--no);color:var(--no)}
+.bts{border:1px solid var(--bdr);background:transparent;color:var(--t3);font-size:10px;padding:6px 10px}
+
+.bw{overflow-x:auto;padding:20px 28px 80px;position:relative}
+.grp{margin-bottom:32px;position:relative}
+.grp-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:1;overflow:visible}
+.grp-t{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:3px;color:var(--t2);margin-bottom:14px}
+.sec-l{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--t1);margin-bottom:10px;position:relative;z-index:3}
+.sec-l.el{color:var(--t2)}
+.br{display:flex;align-items:flex-start;gap:40px;margin-bottom:8px;position:relative;z-index:2}
+.rc{display:flex;flex-direction:column;gap:16px;min-width:300px;position:relative;z-index:3}
+.sep{height:20px}
+
+.mu{background:var(--card);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s;position:relative;z-index:4}
+.mu:hover{border-color:var(--bdr2);box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.muh{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:rgba(0,0,0,.15);border-bottom:1px solid var(--bdr)}
+.mud{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1px}
+.mus{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px}
+.mub{display:flex;flex-direction:column}
+
+.tr{display:flex;align-items:center;padding:8px 12px;gap:10px;cursor:default;transition:all .15s;border-left:3px solid transparent;min-height:44px}
+.tr+.tr{border-top:1px solid var(--bdr)}
+.tr.ck{cursor:pointer}.tr.ck:hover{background:var(--cardH)}
+.tr.sp{border-left-color:var(--gold);background:var(--gD)}
+.tr.so{border-left-color:var(--ok);background:var(--okB);outline:1.5px solid rgba(39,179,94,.35);outline-offset:-1.5px;border-radius:2px}
+.tr.so .pm{font-size:14px;font-weight:800}
+.tr.sn{border-left-color:#e85d5d;background:rgba(232,93,93,.08);outline:1.5px solid rgba(232,93,93,.45);outline-offset:-1.5px;border-radius:2px}
+.tr.sn .pm{color:#e85d5d;font-size:14px;font-weight:800}
+.tr.sa{background:rgba(39,179,94,.04)}
+.tr.fd{opacity:.35}.tr.fd .tl{filter:grayscale(1)}
+
+.tl{width:30px;height:30px;object-fit:contain;flex-shrink:0;transition:filter .3s}
+.tlf{width:30px;height:30px;border-radius:6px;display:none;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;text-shadow:0 1px 2px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.tlf::after{content:'';position:absolute;top:0;left:0;right:0;bottom:50%;background:rgba(255,255,255,.10);border-radius:6px 6px 0 0}
+.ts{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:var(--t3);min-width:16px}
+.ts.hd{visibility:hidden}
+.tn{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tn.tw{font-weight:800}.tn.tbd{color:var(--t3);font-style:italic;font-weight:400;font-size:12px}
+.tv{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;min-width:24px;text-align:right;color:var(--t2)}
+.tv.wv{color:var(--t1)}
+.inn{font-family:'Montserrat',sans-serif;font-size:8px;font-weight:700;color:var(--ora);background:rgba(232,120,23,.10);padding:2px 5px;border-radius:3px;white-space:nowrap}
+.pm{width:16px;flex-shrink:0;text-align:center;font-size:12px;font-weight:700}
+.pm.cg{color:var(--gold)}.pm.co{color:var(--ok)}.pm.cn{color:var(--no)}
+
+.sc-in{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;width:38px;text-align:center;background:rgba(0,0,0,.2);border:1px solid var(--bdr);border-radius:4px;color:var(--t1);padding:3px 2px}
+.sc-in:focus{outline:none;border-color:var(--gold)}
+
+.mu.ifn{border-style:dashed;border-color:var(--bdr);opacity:.55}
+.mu.ifn.active{opacity:1;border-style:solid;border-color:var(--ora)}
+.mu.ifn .muh{background:transparent}
+.ifnl{font-family:'Oswald',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--ora);padding:12px;text-align:center;opacity:.7}
+.ifni{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;color:var(--t3);padding:0 12px 12px;text-align:center}
+
+.cs{margin-top:12px;padding-top:20px;border-top:2px solid var(--bdr)}
+.ct{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:var(--gold);margin-bottom:6px}
+.sl{font-size:11px;color:var(--t3);margin-bottom:14px}
+.fr{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.fg{min-width:300px}.fg .mu{border-color:rgba(232,168,23,.20)}
+.chb{background:linear-gradient(135deg,rgba(232,168,23,.08),rgba(232,168,23,.02));border:2px solid var(--gold);border-radius:14px;padding:24px 30px;text-align:center;min-width:200px;animation:glo 3s ease-in-out infinite}
+@keyframes glo{0%,100%{box-shadow:0 0 20px rgba(232,168,23,.08)}50%{box-shadow:0 0 35px rgba(232,168,23,.22)}}
+.chtr{font-size:38px;margin-bottom:4px}
+.chlg{width:52px;height:52px;object-fit:contain;margin:0 auto 8px;display:block}
+.chla{font-family:'Permanent Marker',cursive;font-size:12px;color:var(--gold);letter-spacing:2px}
+.chna{font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;margin-top:3px}
+.chse{font-size:12px;color:var(--t2);margin-top:3px}
+
+/* Modal — shared for reset confirm + game notes */
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal-box{background:var(--card);border:1px solid var(--bdr2);border-radius:12px;padding:24px;min-width:320px;max-width:420px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.modal-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;color:var(--gold)}
+.modal-msg{font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px}
+.modal-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.modal-row label{font-size:12px;font-weight:600;color:var(--t2);min-width:80px}
+.modal-row input{font-family:'Montserrat',sans-serif;font-size:13px;padding:6px 10px;background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;color:var(--t1);flex:1}
+.modal-row input:focus{outline:none;border-color:var(--gold)}
+.modal-note{font-size:11px;color:var(--t3);margin-bottom:8px}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.modal-btns button{font-family:'Oswald',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s}
+.mbtn-confirm{border:none;background:var(--no);color:#fff;font-weight:600}.mbtn-confirm:hover{background:#e05050}
+.mbtn-save{border:none;background:var(--gold);color:#0e1218;font-weight:600}.mbtn-save:hover{background:#f0c040}
+.mbtn-cancel{border:1px solid var(--bdr);background:transparent;color:var(--t3)}.mbtn-cancel:hover{border-color:var(--t2);color:var(--t2)}
+
+.ft{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--bdr);padding:6px 28px;display:flex;align-items:center;justify-content:space-between;z-index:200}
+.ftl,.ftrx{display:flex;align-items:center;gap:12px}
+.pl{font-family:'Oswald',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:3px 10px;border-radius:16px;border:1px solid var(--bdr);background:var(--card)}
+.pl.pk{color:var(--gold);border-color:rgba(232,168,23,.3)}
+.pl.lk{color:var(--ora);border-color:rgba(232,120,23,.3)}
+.pl.rs{color:var(--ok);border-color:rgba(39,179,94,.3)}
+.lg{display:flex;gap:14px}.li{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--t3)}.ld{width:9px;height:9px;border-radius:2px}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-l"><div><div class="hdr-t">WCWS 2025</div><div class="hdr-s">Bracket Challenge &bull; Devon Park, OKC</div></div></div>
+  <div class="hdr-m" id="sa"></div>
+  <div class="hdr-r">
+    <div class="sw"><button class="swb on" id="bP" onclick="switchMode('picks')">Picks</button><button class="swb" id="bR" onclick="switchMode('results')">Results</button></div>
+    <button class="btn blk" id="lB" onclick="lockPicks()">🔒 Lock Picks</button>
+    <button class="btn brs" id="resetBtn" onclick="showResetModal()">Reset</button>
+    <button class="btn bts" onclick="fillRandom()">🎲 Test</button>
+  </div>
+</header>
+<div class="bw" id="bw"></div>
+<div id="modalRoot"></div>
+<footer class="ft">
+  <div class="ftl"><span class="pl pk" id="mP">Picks Mode</span><span class="pl" id="pP">0 / 15 picks</span></div>
+  <div class="ftrx"><div class="lg">
+    <div class="li"><div class="ld" style="background:var(--gold)"></div>Your Pick</div>
+    <div class="li"><div class="ld" style="background:var(--ok)"></div>Correct</div>
+    <div class="li"><div class="ld" style="background:var(--no)"></div>Wrong</div>
+  </div></div>
+</footer>
+
+<script>
+// ══════════════════════════════════════
+// PREFILL: true = 2025 results, false = blank for 2026
+const PREFILL = true;
+// ══════════════════════════════════════
+
+const LB="https://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/";
+const T={
+  florida:{n:"Florida",s:3,pri:"#0021A5",lt:"F",eid:57},
+  texas:{n:"Texas",s:6,pri:"#BF5700",lt:"T",eid:251},
+  tennessee:{n:"Tennessee",s:7,pri:"#FF8200",lt:"T",eid:2633},
+  oklahoma:{n:"Oklahoma",s:2,pri:"#841617",lt:"OU",eid:201},
+  texastech:{n:"Texas Tech",s:12,pri:"#CC0000",lt:"TT",eid:2641},
+  olemiss:{n:"Ole Miss",s:null,pri:"#14213D",lt:"OM",eid:145},
+  oregon:{n:"Oregon",s:16,pri:"#154733",lt:"O",eid:2483},
+  ucla:{n:"UCLA",s:9,pri:"#2D68C4",lt:"UC",eid:26}
+};
+function lsrc(e){return LB+e+".png&transparent=true&w=80&h=80";}
+
+const R25={
+  G1:{w:"texas",sc:[0,3],inn:7},G2:{w:"oklahoma",sc:[3,4],inn:7},
+  G7:{w:"texas",sc:[4,2],inn:7},G5:{w:"tennessee",sc:[11,3],inn:5},
+  G9:{w:"tennessee",sc:[5,4],inn:9},G11:{w:"texas",sc:[2,0],inn:7},
+  G3:{w:"texastech",sc:[1,0],inn:7},G4:{w:"ucla",sc:[4,2],inn:7},
+  G8:{w:"texastech",sc:[3,1],inn:7},G6:{w:"oregon",sc:[6,5],inn:10},
+  G10:{w:"oklahoma",sc:[1,4],inn:7},G13:{w:"texastech",sc:[3,2],inn:7},
+  F1:{w:"texas",sc:[2,1],inn:7},F2:{w:"texastech",sc:[3,4],inn:7},
+  F3:{w:"texas",sc:[10,4],inn:7}
+};
+
+const G=[
+  {id:"G1",lbl:"Game 1",grp:1,sec:"W",rnd:1,dt:"MAY/29",inf:"12p EDT · ESPN",s1:"florida",s2:"texas"},
+  {id:"G2",lbl:"Game 2",grp:1,sec:"W",rnd:1,dt:"MAY/29",inf:"2:30p EDT · ESPN",s1:"tennessee",s2:"oklahoma"},
+  {id:"G7",lbl:"Game 7",grp:1,sec:"W",rnd:2,dt:"MAY/31",inf:"3p EDT · ABC",s1:{g:"G1",p:"w"},s2:{g:"G2",p:"w"}},
+  {id:"G5",lbl:"Game 5",grp:1,sec:"L",rnd:1,dt:"MAY/30",inf:"7p EDT · ESPN",s1:{g:"G2",p:"l"},s2:{g:"G1",p:"l"}},
+  {id:"G9",lbl:"Game 9",grp:1,sec:"L",rnd:2,dt:"JUN/1",inf:"3p EDT · ABC",s1:{g:"G5",p:"w"},s2:{g:"G8",p:"l"}},
+  {id:"G11",lbl:"Game 11",grp:1,sec:"S",rnd:3,dt:"JUN/2",inf:"12p EDT · ESPN",s1:{g:"G7",p:"w"},s2:{g:"G9",p:"w"}},
+  {id:"G12",lbl:"Game 12",grp:1,sec:"S",rnd:3,dt:"JUN/2",inf:"2:30p EDT · ESPN",ifNec:true,condSrc:"G11",condType:"semi",s1:{g:"G7",p:"w"},s2:{g:"G9",p:"w"}},
+  {id:"G3",lbl:"Game 3",grp:2,sec:"W",rnd:1,dt:"MAY/29",inf:"7p EDT · ESPN2",s1:"texastech",s2:"olemiss"},
+  {id:"G4",lbl:"Game 4",grp:2,sec:"W",rnd:1,dt:"MAY/29",inf:"9:30p EDT · ESPN2",s1:"ucla",s2:"oregon"},
+  {id:"G8",lbl:"Game 8",grp:2,sec:"W",rnd:2,dt:"MAY/31",inf:"7p EDT · ESPN",s1:{g:"G3",p:"w"},s2:{g:"G4",p:"w"}},
+  {id:"G6",lbl:"Game 6",grp:2,sec:"L",rnd:1,dt:"MAY/30",inf:"9:30p EDT · ESPN",s1:{g:"G4",p:"l"},s2:{g:"G3",p:"l"}},
+  {id:"G10",lbl:"Game 10",grp:2,sec:"L",rnd:2,dt:"JUN/1",inf:"7p EDT · ESPN2",s1:{g:"G6",p:"w"},s2:{g:"G7",p:"l"}},
+  {id:"G13",lbl:"Game 13",grp:2,sec:"S",rnd:3,dt:"JUN/2",inf:"7p EDT · ESPN",s1:{g:"G8",p:"w"},s2:{g:"G10",p:"w"}},
+  {id:"G14",lbl:"Game 14",grp:2,sec:"S",rnd:3,dt:"JUN/2",inf:"9:30p EDT · ESPN",ifNec:true,condSrc:"G13",condType:"semi",s1:{g:"G8",p:"w"},s2:{g:"G10",p:"w"}},
+  {id:"F1",lbl:"Finals Gm 1",grp:0,sec:"F",rnd:0,dt:"JUN/4",inf:"8p EDT · ESPN",s1:{g:"G11",p:"w"},s2:{g:"G13",p:"w"}},
+  {id:"F2",lbl:"Finals Gm 2",grp:0,sec:"F",rnd:0,dt:"JUN/5",inf:"8p EDT · ESPN",s1:{g:"G11",p:"w"},s2:{g:"G13",p:"w"}},
+  {id:"F3",lbl:"Finals Gm 3",grp:0,sec:"F",rnd:0,dt:"JUN/6",inf:"8p EDT · ESPN",ifNec:true,condType:"finals",s1:{g:"G11",p:"w"},s2:{g:"G13",p:"w"}}
+];
+G.forEach(g => { g.r = PREFILL && R25[g.id] ? R25[g.id] : null; });
+const GM = {}; G.forEach(g => GM[g.id] = g);
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let S = { mode:"picks", locked:false, picks:{}, scores:{}, notes:{} };
+
+function freshState() {
+  return { mode:"picks", locked:false, picks:{}, scores:{}, notes:{} };
+}
+
+// ══════════════════════════════════════
+// RESOLVE
+// ══════════════════════════════════════
+function rv(src, uR) {
+  if (typeof src === "string") return src;
+  if (!src || !src.g) return null;
+  const gm = GM[src.g]; if (!gm) return null;
+  let w = null;
+  if (uR && gm.r) w = gm.r.w;
+  else if (!uR && S.picks[src.g]) w = S.picks[src.g];
+  else return null;
+  if (src.p === "w") return w;
+  const a = rv(gm.s1, uR), b = rv(gm.s2, uR);
+  if (!a || !b) return null;
+  return w === a ? b : a;
+}
+function rvT(s) { return rv(s, true); }
+function ti(k) { return k && T[k] ? { key:k, ...T[k] } : null; }
+
+// ══════════════════════════════════════
+// IF-NECESSARY LOGIC
+// ══════════════════════════════════════
+function isIfNecActive(g, uR) {
+  if (!g.ifNec) return false;
+  if (g.condType === "finals") {
+    const f1 = GM["F1"], f2 = GM["F2"];
+    if (uR) {
+      const r1 = getRes(f1, true), r2 = getRes(f2, true);
+      return r1 && r2 && r1.w !== r2.w;
+    } else {
+      const p1 = S.picks["F1"], p2 = S.picks["F2"];
+      return p1 && p2 && p1 !== p2;
+    }
+  }
+  if (g.condType === "semi" && g.condSrc) {
+    const semi = GM[g.condSrc]; if (!semi) return false;
+    if (uR) {
+      const r = getRes(semi, true);
+      if (!r) return false;
+      const wb = rv(semi.s1, true);
+      return r.w !== wb;
+    } else {
+      if (!S.picks[g.condSrc]) return false;
+      const wb = rv(semi.s1, false);
+      return S.picks[g.condSrc] !== wb;
+    }
+  }
+  return false;
+}
+
+// ══════════════════════════════════════
+// DYNAMIC GAME COUNT
+// ══════════════════════════════════════
+function getActiveGames(uR) {
+  // All non-ifNec games + any activated ifNec games
+  return G.filter(g => {
+    if (!g.ifNec) return true;
+    return isIfNecActive(g, uR);
+  });
+}
+
+function getPickableCount() {
+  // In picks mode: count = base games + activated if-nec games
+  return getActiveGames(false).length;
+}
+
+function getScoredCount() {
+  // In results mode: count = base games + activated if-nec games (using results)
+  return getActiveGames(true).length;
+}
+
+// ══════════════════════════════════════
+// EFFECTIVE RESULT (pre-loaded OR user-entered)
+// ══════════════════════════════════════
+function getRes(g, uR) {
+  if (uR && g.r) return g.r;
+  const us = S.scores[g.id];
+  if (us && us.s1 !== "" && us.s2 !== "" && us.s1 !== undefined && us.s2 !== undefined) {
+    const sc1 = parseInt(us.s1), sc2 = parseInt(us.s2);
+    if (!isNaN(sc1) && !isNaN(sc2) && sc1 !== sc2) {
+      const t1k = rv(g.s1, uR), t2k = rv(g.s2, uR);
+      const w = sc1 > sc2 ? t1k : t2k;
+      if (w) return { w, sc:[sc1,sc2], inn: parseInt(us.inn) || 7, userEntered:true };
+    }
+  }
+  return null;
+}
+
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+function render() {
+  const uR = S.mode === "results" && S.locked;
+  let h = '<svg class="grp-svg" id="svg-inter" style="z-index:0"></svg>';
+  h += renderGrp(1, "Bracket 1", uR);
+  h += renderGrp(2, "Bracket 2", uR);
+  h += renderFinals(uR);
+  h += '<div style="height:55px"></div>';
+  document.getElementById("bw").innerHTML = h;
+  requestAnimationFrame(drawAllConnectors);
+  updateStats();
+}
+
+function renderGrp(grp, title, uR) {
+  const gs = G.filter(g => g.grp === grp);
+  const wR1 = gs.filter(g => g.sec==="W" && g.rnd===1);
+  const wR2 = gs.filter(g => g.sec==="W" && g.rnd===2);
+  const lR1 = gs.filter(g => g.sec==="L" && g.rnd===1);
+  const lR2 = gs.filter(g => g.sec==="L" && g.rnd===2);
+  const semi = gs.filter(g => g.sec==="S" && !g.ifNec);
+  const ifn = gs.filter(g => g.sec==="S" && g.ifNec);
+
+  let h = `<div class="grp" id="grp-${grp}"><svg class="grp-svg" id="svg-${grp}"></svg><div class="grp-t">${title}</div>`;
+  h += `<div class="sec-l">Winners' Bracket</div>`;
+  h += `<div class="br" id="br-w-${grp}">`;
+  h += `<div class="rc">${wR1.map(g => gameCard(g, uR)).join('')}</div>`;
+  h += `<div class="rc">${wR2.map(g => gameCard(g, uR)).join('')}</div>`;
+  h += `<div class="rc">${semi.map(g => gameCard(g, uR)).join('')}${ifn.map(g => ifNecCard(g, uR)).join('')}</div>`;
+  h += `</div><div class="sep"></div>`;
+  h += `<div class="sec-l el">Elimination Bracket</div>`;
+  h += `<div class="br" id="br-l-${grp}"><div class="rc">${lR1.map(g => gameCard(g, uR)).join('')}</div>`;
+  h += `<div class="rc">${lR2.map(g => gameCard(g, uR)).join('')}</div></div></div>`;
+  return h;
+}
+
+function gameCard(g, uR) {
+  const t1k = rv(g.s1, uR), t2k = rv(g.s2, uR);
+  const t1 = ti(t1k), t2 = ti(t2k);
+  const pk = S.picks[g.id];
+  const res = getRes(g, uR);
+  const showInput = uR && !res && t1k && t2k;
+
+  let h = `<div class="mu" id="mu-${g.id}">`;
+  h += `<div class="muh"><span class="mud">${g.dt}</span>`;
+  h += res ? `<span class="mus">FINAL</span>` : `<span class="mus">${g.inf}</span>`;
+  h += `</div><div class="mub">`;
+  h += teamRow(g, t1, 0, pk, res, uR, showInput);
+  h += teamRow(g, t2, 1, pk, res, uR, showInput);
+  h += `</div></div>`;
+  return h;
+}
+
+function teamRow(g, tm, sl, pk, res, uR, showInput) {
+  const k = tm ? tm.key : null;
+  const isPk = pk && pk === k;
+  const canClick = S.mode === "picks" && !S.locked && k;
+  const isW = res && k && res.w === k;
+  const isL = res && k && res.w !== k;
+
+  let cls = ["tr"], mark = "";
+  if (canClick) cls.push("ck");
+  if (res && k) {
+    if (isPk && isW) { cls.push("so"); mark = '<span class="pm co">✓</span>'; }
+    else if (isPk && !isW) { cls.push("sn"); mark = '<span class="pm cn">✗</span>'; }
+    else if (isW) cls.push("sa");
+    if (isL && !isPk) cls.push("fd");
+  } else if (isPk) {
+    cls.push("sp"); mark = '<span class="pm cg">◆</span>';
+  }
+
+  const handler = (uR && isPk && isL)
+    ? ` onclick="showNoteModal('${g.id}')"`
+    : (canClick ? ` onclick="doPick('${g.id}','${k}')"` : "");
+
+  let logo;
+  if (tm) logo = `<img class="tl" src="${lsrc(tm.eid)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${tm.n}"><div class="tlf" style="background:${tm.pri}">${tm.lt}</div>`;
+  else logo = `<div class="tlf" style="background:var(--bdr);display:flex">?</div>`;
+
+  const seed = tm && tm.s ? `<span class="ts">${tm.s}</span>` : '<span class="ts hd">–</span>';
+  const wCls = isW ? " tw" : "";
+  const name = tm ? `<span class="tn${wCls}">${tm.n}</span>` : '<span class="tn tbd">TBD</span>';
+
+  let scoreH = "";
+  if (res && k) {
+    const sc = sl === 0 ? res.sc[0] : res.sc[1];
+    scoreH = `<span class="tv${isW ? ' wv' : ''}">${sc}</span>`;
+    if (isW && res.inn !== 7) scoreH += `<span class="inn">${res.inn} inn</span>`;
+  } else if (showInput) {
+    const us = S.scores[g.id];
+    const val = us ? (sl === 0 ? us.s1 : us.s2) : "";
+    scoreH = `<input class="sc-in" type="number" min="0" placeholder="–" value="${val}" onchange="enterScore('${g.id}',${sl},this.value)" onclick="event.stopPropagation()">`;
+  }
+
+  return `<div class="${cls.join(' ')}"${handler}>${logo}${seed}${name}${scoreH}${mark}</div>`;
+}
+
+function ifNecCard(g, uR) {
+  const active = isIfNecActive(g, uR);
+  if (active) {
+    const t1k = rv(g.s1, uR), t2k = rv(g.s2, uR);
+    const t1 = ti(t1k), t2 = ti(t2k);
+    const pk = S.picks[g.id];
+    const res = getRes(g, uR);
+    const showInput = uR && !res && t1k && t2k;
+
+    let h = `<div class="mu ifn active" id="mu-${g.id}">`;
+    h += `<div class="muh"><span class="mud">${g.dt} · If Necessary</span>`;
+    h += res ? `<span class="mus">FINAL</span>` : `<span class="mus">${g.inf}</span>`;
+    h += `</div><div class="mub">`;
+    h += teamRow(g, t1, 0, pk, res, uR, showInput);
+    h += teamRow(g, t2, 1, pk, res, uR, showInput);
+    h += `</div></div>`;
+    return h;
+  }
+  return `<div class="mu ifn" id="mu-${g.id}"><div class="muh"><span class="mud">${g.dt}</span><span class="mus"></span></div><div class="ifnl">If Necessary</div><div class="ifni">${g.inf}</div></div>`;
+}
+
+function renderFinals(uR) {
+  const f1 = GM["F1"], f2 = GM["F2"], f3 = GM["F3"];
+  const r1 = getRes(f1, uR), r2 = getRes(f2, uR);
+
+  let seriesStr = "";
+  if (r1 || r2) {
+    const t1k = rv(f1.s1, uR), t2k = rv(f1.s2, uR);
+    const t1 = ti(t1k), t2 = ti(t2k);
+    let w1 = 0, w2 = 0;
+    if (r1) { if (r1.w === t1k) w1++; else w2++; }
+    if (r2) { if (r2.w === t1k) w1++; else w2++; }
+    const r3 = getRes(f3, uR);
+    if (r3) { if (r3.w === t1k) w1++; else w2++; }
+    if (t1 && t2) seriesStr = `${t1.n} ${w1} — ${t2.n} ${w2}`;
+  }
+
+  let h = `<div class="cs"><div class="ct">Championship Finals — Best of 3</div>`;
+  if (seriesStr) h += `<div class="sl">Series: ${seriesStr}</div>`;
+  h += `<div class="fr">`;
+  h += `<div class="fg">${gameCard(f1, uR)}</div>`;
+  h += `<div class="fg">${gameCard(f2, uR)}</div>`;
+  h += `<div class="fg">${ifNecCard(f3, uR)}</div>`;
+
+  if (uR) {
+    let wins = {};
+    ["F1","F2","F3"].forEach(fid => { const r = getRes(GM[fid], uR); if (r) wins[r.w] = (wins[r.w]||0) + 1; });
+    let ch = null, cw = 0;
+    for (const [k,v] of Object.entries(wins)) if (v >= 2) { ch = k; cw = v; }
+    if (ch) {
+      const lw = ["F1","F2","F3"].reduce((n, fid) => { const r = getRes(GM[fid], uR); return r && r.w !== ch ? n+1 : n; }, 0);
+      const tm = T[ch];
+      h += `<div class="chb"><div class="chtr">🏆</div><img class="chlg" src="${lsrc(tm.eid)}" onerror="this.style.display='none'" alt="${tm.n}"><div class="chla">National Champion</div><div class="chna">${tm.n}</div><div class="chse">Series: ${cw}–${lw}</div></div>`;
+    }
+  }
+  h += `</div></div>`;
+  return h;
+}
+
+// ══════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════
+
+function showModal(html) {
+  document.getElementById("modalRoot").innerHTML = html;
+}
+function closeModal() {
+  document.getElementById("modalRoot").innerHTML = "";
+}
+
+// Reset confirmation modal
+function showResetModal() {
+  const h = `<div class="modal-bg" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+      <div class="modal-title">Reset Bracket</div>
+      <div class="modal-msg">Are you sure you want to reset all your picks, scores, and notes? This cannot be undone.</div>
+      <div class="modal-btns">
+        <button class="mbtn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="mbtn-confirm" onclick="confirmReset()">Reset Everything</button>
+      </div>
+    </div>
+  </div>`;
+  showModal(h);
+}
+
+function confirmReset() {
+  closeModal();
+  S = freshState();
+  // Reset UI controls
+  document.getElementById("lB").classList.remove("dn");
+  document.getElementById("lB").textContent = "🔒 Lock Picks";
+  document.getElementById("bP").classList.add("on");
+  document.getElementById("bR").classList.remove("on");
+  render();
+}
+
+// Game notes modal (for wrong picks)
+function showNoteModal(gid) {
+  const g = GM[gid]; if (!g) return;
+  const res = getRes(g, true); if (!res) return;
+  const t1k = rvT(g.s1), t2k = rvT(g.s2);
+  const t1 = ti(t1k), t2 = ti(t2k);
+  if (!t1 || !t2) return;
+  const note = S.notes[gid] || "";
+  const picked = T[S.picks[gid]]?.n || "—";
+
+  const h = `<div class="modal-bg" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+      <div class="modal-title">Game Notes — ${g.lbl}</div>
+      <div class="modal-note">Your pick: <strong>${picked}</strong> · Actual winner: <strong style="color:var(--ok)">${T[res.w].n}</strong></div>
+      <div class="modal-row"><label>Score</label><span style="font-size:13px;font-weight:700">${t1.n}: ${res.sc[0]} — ${t2.n}: ${res.sc[1]}</span></div>
+      ${res.inn !== 7 ? `<div class="modal-row"><label>Innings</label><span style="font-size:13px;color:var(--ora)">${res.inn} innings</span></div>` : ''}
+      <div class="modal-row"><label>Your Notes</label><input id="noteInput" type="text" placeholder="e.g. upset pick, pitching matchup..." value="${note}"></div>
+      <div class="modal-btns">
+        <button class="mbtn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="mbtn-save" onclick="saveNote('${gid}')">Save Note</button>
+      </div>
+    </div>
+  </div>`;
+  showModal(h);
+}
+
+function saveNote(gid) {
+  const input = document.getElementById("noteInput");
+  if (input) S.notes[gid] = input.value;
+  closeModal();
+}
+
+// ══════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════
+
+function doPick(gid, k) {
+  if (S.locked || S.mode !== "picks") return;
+  S.picks[gid] = k;
+  render();
+}
+
+function switchMode(m) {
+  S.mode = m;
+  document.getElementById("bP").classList.toggle("on", m === "picks");
+  document.getElementById("bR").classList.toggle("on", m === "results");
+  render();
+}
+
+function lockPicks() {
+  if (S.locked) return;
+  const n = Object.keys(S.picks).length;
+  const total = getPickableCount();
+  if (n < total) {
+    // Show lock confirmation modal
+    const h = `<div class="modal-bg" onclick="if(event.target===this)closeModal()">
+      <div class="modal-box">
+        <div class="modal-title">Lock Picks?</div>
+        <div class="modal-msg">You've made <strong>${n}</strong> of <strong>${total}</strong> picks. Missing picks will count as incorrect. Lock your bracket?</div>
+        <div class="modal-btns">
+          <button class="mbtn-cancel" onclick="closeModal()">Go Back</button>
+          <button class="mbtn-save" onclick="confirmLock()">Lock Picks</button>
+        </div>
+      </div>
+    </div>`;
+    showModal(h);
+    return;
+  }
+  confirmLock();
+}
+
+function confirmLock() {
+  closeModal();
+  S.locked = true;
+  S.mode = "results";
+  document.getElementById("lB").classList.add("dn");
+  document.getElementById("lB").textContent = "🔒 Locked";
+  document.getElementById("bP").classList.remove("on");
+  document.getElementById("bR").classList.add("on");
+  render();
+}
+
+function enterScore(gid, slot, val) {
+  if (!S.scores[gid]) S.scores[gid] = { s1:"", s2:"", inn:7 };
+  if (slot === 0) S.scores[gid].s1 = val;
+  else S.scores[gid].s2 = val;
+  render();
+}
+
+function fillRandom() {
+  G.forEach(g => {
+    if (g.ifNec) return;
+    const a = rvT(g.s1), b = rvT(g.s2);
+    if (a && b) S.picks[g.id] = Math.random() > .5 ? a : b;
+  });
+  // Also fill any now-active if-necessary games
+  G.forEach(g => {
+    if (!g.ifNec) return;
+    if (isIfNecActive(g, false)) {
+      const a = rvT(g.s1), b = rvT(g.s2);
+      if (a && b) S.picks[g.id] = Math.random() > .5 ? a : b;
+    }
+  });
+  render();
+}
+
+// ══════════════════════════════════════
+// STATS UPDATE
+// ══════════════════════════════════════
+
+function updateStats() {
+  const uR = S.mode === "results" && S.locked;
+  const nPicks = Object.keys(S.picks).length;
+
+  // Dynamic total based on which if-nec games are active
+  const activeGames = uR ? getActiveGames(true) : getActiveGames(false);
+  const totalGames = activeGames.length;
+
+  const sa = document.getElementById("sa");
+  if (uR) {
+    let tot = 0, cor = 0;
+    activeGames.forEach(g => {
+      const r = getRes(g, true);
+      if (r) { tot++; if (S.picks[g.id] === r.w) cor++; }
+    });
+    const pct = tot ? Math.round(cor / tot * 100) : 0;
+    sa.innerHTML = `<div class="stb"><div class="stl">Accuracy</div><div class="stv">${pct}%</div><div class="std">${cor}/${tot} correct</div></div>`;
+  } else {
+    sa.innerHTML = `<div class="stb"><div class="stl">Picks</div><div class="stv">${nPicks}</div><div class="std">of ${totalGames}</div></div>`;
+  }
+
+  const mp = document.getElementById("mP");
+  if (uR) { mp.textContent = "Results Mode"; mp.className = "pl rs"; }
+  else if (S.locked) { mp.textContent = "Locked"; mp.className = "pl lk"; }
+  else { mp.textContent = "Picks Mode"; mp.className = "pl pk"; }
+
+  document.getElementById("pP").textContent = `${nPicks} / ${totalGames} picks`;
+}
+
+// ══════════════════════════════════════
+// CONNECTORS
+// ══════════════════════════════════════
+
+// Connection definitions per bracket group
+// within: { srcs: [gameIds], dst: gameId } — bracket merge lines
+// cross: { src: gameId, dst: gameId, dstSlot: 0|1 } — loser drop-down lines
+const CONN = {
+  1: {
+    within: [
+      { srcs: ["G1","G2"], dst: "G7" },   // WR1 → WR2
+      { srcs: ["G5"], dst: "G9" },         // LR1 → LR2
+      { srcs: ["G7"], dst: "G11" },        // WR2 winner → Semi s1
+      { srcs: ["G9"], dst: "G11" },        // LR2 winner → Semi s2
+    ],
+    cross: [
+      { src: "G1", dst: "G5", dstSlot: 1 }, // G1 loser → G5 s2
+      { src: "G2", dst: "G5", dstSlot: 0 }, // G2 loser → G5 s1
+    ]
+  },
+  2: {
+    within: [
+      { srcs: ["G3","G4"], dst: "G8" },
+      { srcs: ["G6"], dst: "G10" },
+      { srcs: ["G8"], dst: "G13" },
+      { srcs: ["G10"], dst: "G13" },
+    ],
+    cross: [
+      { src: "G3", dst: "G6", dstSlot: 1 },
+      { src: "G4", dst: "G6", dstSlot: 0 },
+    ]
+  }
+};
+
+// Cross-bracket connections that span between the two groups
+// (WB R2 losers dropping into the other bracket's LB R2)
+const CROSS_INTER = [
+  { src: "G8", dst: "G9", dstSlot: 1, srcGrp: 2, dstGrp: 1 }, // G8 loser → G9 s2
+  { src: "G7", dst: "G10", dstSlot: 1, srcGrp: 1, dstGrp: 2 }, // G7 loser → G10 s2
+];
+
+function drawAllConnectors() {
+  drawGroupConnectors(1);
+  drawGroupConnectors(2);
+  drawInterGroupConnectors();
+}
+
+function drawInterGroupConnectors() {
+  const svg = document.getElementById("svg-inter");
+  const bw = document.getElementById("bw");
+  if (!svg || !bw) return;
+
+  const bR = bw.getBoundingClientRect();
+  svg.setAttribute("width", bR.width);
+  svg.setAttribute("height", bR.height);
+  svg.style.width = bR.width + "px";
+  svg.style.height = bR.height + "px";
+
+  let paths = "";
+
+  CROSS_INTER.forEach(cx => {
+    const srcEl = document.getElementById("mu-" + cx.src);
+    const dstEl = document.getElementById("mu-" + cx.dst);
+    if (!srcEl || !dstEl) return;
+
+    const sR = rel(srcEl, bR), dR = rel(dstEl, bR);
+    const sx = sR.left + sR.width;
+    const sy = sR.top + sR.height / 2;
+    const dx = dR.left;
+    const dy = dR.top + (cx.dstSlot === 0 ? dR.height * 0.3 : dR.height * 0.7);
+
+    // Longer curve since it spans between groups
+    const exitX = sx + 24;
+    const enterX = dx - 24;
+    const midX = (sx + dx) / 2;
+    const midY = (sy + dy) / 2;
+
+    paths += `<path d="M${sx},${sy} C${exitX},${sy} ${midX},${sy} ${midX},${midY} S${midX},${dy} ${dx},${dy}" fill="none" stroke="#e87817" stroke-width="1.2" stroke-dasharray="5 3" stroke-opacity="0.30" stroke-linecap="round"/>`;
+  });
+
+  svg.innerHTML = paths;
+}
+
+function drawGroupConnectors(grp) {
+  const svg = document.getElementById("svg-" + grp);
+  const grpEl = document.getElementById("grp-" + grp);
+  if (!svg || !grpEl) return;
+
+  const gR = grpEl.getBoundingClientRect();
+  svg.setAttribute("width", gR.width);
+  svg.setAttribute("height", gR.height);
+  svg.style.width = gR.width + "px";
+  svg.style.height = gR.height + "px";
+
+  let paths = "";
+  const c = CONN[grp];
+  if (!c) return;
+
+  // Within-group bracket merges
+  c.within.forEach(w => {
+    const dstEl = document.getElementById("mu-" + w.dst);
+    if (!dstEl) return;
+    const dR = rel(dstEl, gR);
+    const dMid = dR.top + dR.height / 2;
+    const dLeft = dR.left;
+
+    if (w.srcs.length === 2) {
+      // Two sources merging into one destination (classic bracket fork)
+      const s1El = document.getElementById("mu-" + w.srcs[0]);
+      const s2El = document.getElementById("mu-" + w.srcs[1]);
+      if (!s1El || !s2El) return;
+      const r1 = rel(s1El, gR), r2 = rel(s2El, gR);
+      const y1 = r1.top + r1.height / 2, y2 = r2.top + r2.height / 2;
+      const sx = Math.max(r1.left + r1.width, r2.left + r2.width);
+      const gap = dLeft - sx;
+      const mx = sx + gap * 0.35;
+      const midY = (y1 + y2) / 2;
+
+      // Horizontal stubs
+      paths += svgLine(sx, y1, mx, y1);
+      paths += svgLine(sx, y2, mx, y2);
+      // Vertical bar
+      paths += svgLine(mx, y1, mx, y2);
+      // Curve to destination
+      paths += svgBezier(mx, midY, mx + gap * 0.3, midY, dLeft - gap * 0.15, dMid, dLeft, dMid);
+      // Junction dots
+      paths += svgDot(mx, y1);
+      paths += svgDot(mx, y2);
+      paths += svgDot(mx, midY);
+    } else {
+      // Single source to destination (1:1 flow line)
+      const s1El = document.getElementById("mu-" + w.srcs[0]);
+      if (!s1El) return;
+      const r1 = rel(s1El, gR);
+      const y1 = r1.top + r1.height / 2;
+      const sx = r1.left + r1.width;
+      const gap = dLeft - sx;
+      paths += svgBezier(sx, y1, sx + gap * 0.45, y1, dLeft - gap * 0.45, dMid, dLeft, dMid);
+    }
+  });
+
+  // Cross-bracket drop-down lines (within this group)
+  c.cross.forEach(cx => {
+    const srcEl = document.getElementById("mu-" + cx.src);
+    const dstEl = document.getElementById("mu-" + cx.dst);
+    if (!srcEl || !dstEl) return;
+    const sR = rel(srcEl, gR), dR = rel(dstEl, gR);
+
+    const sx = sR.left + sR.width;
+    const sy = sR.top + sR.height / 2;
+    const dx = dR.left;
+    const dy = dR.top + (cx.dstSlot === 0 ? dR.height * 0.3 : dR.height * 0.7);
+
+    const midX = (sx + dx) / 2;
+    paths += `<path d="M${sx},${sy} C${sx+20},${sy} ${sx+20},${(sy+dy)/2} ${midX},${(sy+dy)/2} S${dx-20},${dy} ${dx},${dy}" fill="none" stroke="#e87817" stroke-width="1.1" stroke-dasharray="4 3" stroke-opacity="0.35" stroke-linecap="round"/>`;
+  });
+
+  svg.innerHTML = paths;
+}
+
+function rel(el, parentRect) {
+  const r = el.getBoundingClientRect();
+  return {
+    left: r.left - parentRect.left,
+    top: r.top - parentRect.top,
+    width: r.width,
+    height: r.height
+  };
+}
+
+function svgLine(x1, y1, x2, y2) {
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#3a4460" stroke-width="1.3" stroke-linecap="round"/>`;
+}
+
+function svgBezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2) {
+  return `<path d="M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}" fill="none" stroke="#3a4460" stroke-width="1.3" stroke-linecap="round"/>`;
+}
+
+function svgDot(x, y) {
+  return `<circle cx="${x}" cy="${y}" r="2.5" fill="#4a5568"/>`;
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+render();
+window.addEventListener("resize", () => requestAnimationFrame(drawAllConnectors));
+</script>
+</body>
+</html>
