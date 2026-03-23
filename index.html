@@ -49,9 +49,9 @@ body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--t1);mi
 .tr+.tr{border-top:1px solid var(--bdr)}
 .tr.ck{cursor:pointer}.tr.ck:hover{background:var(--cardH)}
 .tr.sp{border-left-color:var(--gold);background:var(--gD)}
-.tr.so{border-left-color:var(--ok);background:var(--okB);outline:1.5px solid rgba(39,179,94,.35);outline-offset:-1.5px;border-radius:2px}
+.tr.so{border-left-color:var(--ok);background:var(--okB);box-shadow:inset 0 0 0 1.5px rgba(39,179,94,.35)}
 .tr.so .pm{font-size:14px;font-weight:800}
-.tr.sn{border-left-color:#e85d5d;background:rgba(232,93,93,.08);outline:1.5px solid rgba(232,93,93,.45);outline-offset:-1.5px;border-radius:2px}
+.tr.sn{border-left-color:#e85d5d;background:rgba(232,93,93,.08);box-shadow:inset 0 0 0 1.5px rgba(232,93,93,.50)}
 .tr.sn .pm{color:#e85d5d;font-size:14px;font-weight:800}
 .tr.sa{background:rgba(39,179,94,.04)}
 .tr.fd{opacity:.35}.tr.fd .tl{filter:grayscale(1)}
@@ -202,14 +202,39 @@ function freshState() {
 // ══════════════════════════════════════
 // RESOLVE
 // ══════════════════════════════════════
+// Map semi games to their if-necessary counterparts
+const IF_NEC_MAP = { "G11": "G12", "G13": "G14" };
+
 function rv(src, uR) {
   if (typeof src === "string") return src;
   if (!src || !src.g) return null;
-  const gm = GM[src.g]; if (!gm) return null;
+  
+  let gameId = src.g;
+  
+  // If requesting winner of a semi game, check if the if-necessary game was played
+  // If so, the true semifinal winner comes from the if-nec game
+  if (src.p === "w" && IF_NEC_MAP[gameId]) {
+    const ifNecId = IF_NEC_MAP[gameId];
+    const ifNecGame = GM[ifNecId];
+    if (ifNecGame && isIfNecActive(ifNecGame, uR)) {
+      // The if-nec game is active — check if it has a result/pick
+      const ifNecResult = uR ? getRes(ifNecGame, true) : null;
+      const ifNecPick = !uR ? S.picks[ifNecId] : null;
+      if (ifNecResult) return ifNecResult.w;
+      if (ifNecPick) return ifNecPick;
+      // If-nec is active but no result/pick yet — fall through to base game
+    }
+  }
+  
+  const gm = GM[gameId]; if (!gm) return null;
   let w = null;
-  if (uR && gm.r) w = gm.r.w;
-  else if (!uR && S.picks[src.g]) w = S.picks[src.g];
-  else return null;
+  if (uR) {
+    const res = getRes(gm, true);
+    if (res) w = res.w;
+  } else if (S.picks[gameId]) {
+    w = S.picks[gameId];
+  }
+  if (!w) return null;
   if (src.p === "w") return w;
   const a = rv(gm.s1, uR), b = rv(gm.s2, uR);
   if (!a || !b) return null;
